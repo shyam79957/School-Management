@@ -1,0 +1,19 @@
+.class-cards {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.class-card {
+  background-color: #f0f0f0;
+  padding: 20px;
+  width: 150px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.class-card:hover {
+  background-color: #cde;
+}

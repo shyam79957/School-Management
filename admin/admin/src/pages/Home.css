@@ -1,0 +1,76 @@
+/* src/pages/Home.css */
+.home-container {
+  font-family: Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #003366;
+  color: white;
+  padding: 15px 30px;
+}
+
+.school-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.login-button {
+  background-color: #ffffff;
+  color: #003366;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #e0e0e0;
+}
+
+.home-header {
+  background-color: #f0f0f0;
+  color: #003366;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.logo {
+  height: 80px;
+  margin-bottom: 15px;
+}
+
+.subtitle {
+  font-size: 16px;
+  margin-top: 10px;
+  font-weight: 300;
+}
+
+.home-main {
+  margin: 30px auto;
+  max-width: 900px;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.banner {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.info h2 {
+  color: #003366;
+  margin-bottom: 10px;
+}
+
+.info p {
+  font-size: 16px;
+  color: #444;
+}
