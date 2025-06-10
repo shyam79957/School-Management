@@ -1,7 +1,7 @@
 // src/App.js
 import React, { useContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Login from './pages/admin/Login';
+import Login from './pages/Login';
 import Home from './pages/Home';
 import AdminRoutes from './routes/AdminRoutes';
 import TeacherRoutes from './routes/TeacherRoutes';

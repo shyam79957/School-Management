@@ -10,6 +10,8 @@ const ClassStudents = () => {
   const [students, setStudents] = useState([]);
   const [showForm, setShowForm] = useState(false); // toggle for form modal
   const [editingStudent, setEditingStudent] = useState(null); // store student being edited
+  const [studentToDelete, setStudentToDelete] = useState(null);
+
 
   const fetchStudents = async () => {
     try {
@@ -24,34 +26,52 @@ const ClassStudents = () => {
     fetchStudents();
   }, [classId]);
 
-  const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this student?')) {
-      try {
-        await apiClient.delete(`/students/${id}`);
-        setStudents(students.filter((s) => s._id !== id));
-      } catch (error) {
-        console.error('Delete failed:', error);
-      }
-    }
-  };
 
-  // Add new or update existing student
-  const handleSaveStudent = async (studentData) => {
-    try {
-      if (editingStudent) {
-        // Update existing student
-        await apiClient.put(`/students/${editingStudent._id}`, studentData);
-      } else {
-        // Add new student, include classId
-        await apiClient.post('/students', { ...studentData, class: classId });
-      }
-      setShowForm(false);
-      setEditingStudent(null);
-      fetchStudents(); // Refresh list after saving
-    } catch (error) {
-      console.error('Save failed:', error);
+
+const handleDelete = (id) => {
+  const student = students.find((s) => s._id === id);
+  setStudentToDelete(student);
+};
+
+const confirmDelete = async () => {
+  try {
+    await apiClient.delete(`/students/${studentToDelete._id}`);
+    setStudents(students.filter((s) => s._id !== studentToDelete._id));
+  } catch (error) {
+    console.error('Delete failed:', error);
+  } finally {
+    setStudentToDelete(null);
+  }
+};
+
+const cancelDelete = () => {
+  setStudentToDelete(null);
+};
+
+
+const handleSaveStudent = async (studentData) => {
+  try {
+    if (editingStudent) {
+      // Update
+      await apiClient.put(`/students/${editingStudent._id}`, {
+        ...studentData,
+        class: classId,
+      });
+    } else {
+      // Add new
+      await apiClient.post('/students', {
+        ...studentData,
+        class: classId,
+      });
     }
-  };
+    setShowForm(false);
+    setEditingStudent(null);
+    fetchStudents();
+  } catch (error) {
+    console.error('Save failed:', error);
+  }
+};
+
 
   // Open form with selected student data for editing
   const handleEditClick = (student) => {
@@ -70,7 +90,7 @@ const ClassStudents = () => {
       <h1>Students in Class {classId}</h1>
 
       <div className="top-bar" style={{ justifyContent: 'space-between' }}>
-        <button onClick={() => navigate('/admin/students/class')} className="add-btn">
+        <button onClick={() => navigate('/admin/students')} className="add-btn">
           ⬅ Back to Class List
         </button>
         <button onClick={() => setShowForm(true)} className="add-btn">
@@ -127,13 +147,27 @@ const ClassStudents = () => {
           <div className="modal-content">
             <AddStudentForm
               classValue={classId}
-              initialData={editingStudent} // Pass data for editing
+              initialData={editingStudent}
               onSave={handleSaveStudent}
               onCancel={handleCancel}
             />
           </div>
         </div>
       )}
+
+
+        {studentToDelete && (
+          <div className="modal-overlay">
+            <div className="modal-content confirm-modal">
+              <h3>Confirm Delete</h3>
+              <p>Are you sure you want to delete <strong>{studentToDelete.name}</strong>?</p>
+              <div className="confirm-actions">
+                <button className="cancel-btn" onClick={cancelDelete}>Cancel</button>
+                <button className="delete-btn" onClick={confirmDelete}>Delete</button>
+              </div>
+            </div>
+          </div>
+        )}
     </div>
   );
 };

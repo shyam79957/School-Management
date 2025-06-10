@@ -8,6 +8,8 @@ const classes = [
   { id: '1B', name: '1B' },
   { id: '2A', name: '2A' },
   { id: '2B', name: '2B' },
+  { id: '3A', name: '3A' },
+  { id: '3B', name: '3B' },
 ];
 
 const ClassList = () => {
